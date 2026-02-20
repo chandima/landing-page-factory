@@ -15,6 +15,20 @@ yarn
 yarn dev
 ```
 
+## Agent scaffolds
+
+Canonical skills live in `.agents/skills` (Vercel `skills` style: single source + symlink aliases):
+
+- `.agents/skills` (source of truth for Codex/Copilot-style agents)
+- `.github/skills` -> `../.agents/skills` (symlink alias)
+- `.claude/skills` -> `../.agents/skills` (symlink alias)
+
+MCP scaffold files:
+
+- VS Code: `.vscode/mcp.json`
+- Claude Code: `.mcp.json`
+- Codex: run `./scripts/setup-codex-mcp.sh` (writes to `~/.codex/config.toml`)
+
 ## Agentic workflow (Figma → RDS → Nuxt)
 
 1. Refresh the design-system catalog:
@@ -39,4 +53,6 @@ yarn dev
 ## Notes
 
 - This template assumes your RDS packages are available as `@rds-vue-ui/*` dependencies.
-- `.vscode/mcp.json` includes example MCP server configs (Figma, Playwright, Filesystem). Adjust to your environment.
+- `FIGMA_ACCESS_TOKEN` must be set in your shell for Figma MCP usage.
+- `.vscode/mcp.json` and `.mcp.json` include example MCP server configs (Figma, Playwright, Filesystem). Adjust if your environment differs.
+- `scripts/setup-codex-mcp.sh` is idempotent; it removes and re-adds the template MCP servers for Codex.
