@@ -15,6 +15,16 @@ yarn
 yarn dev
 ```
 
+## Environment
+
+Create a local env file for optional Figma settings:
+
+```bash
+cp .env.example .env.local
+```
+
+`yarn figma:map` auto-loads `.env.local`.
+
 ## Agent scaffolds
 
 Canonical skills live in `.agents/skills` (Vercel `skills` style: single source + symlink aliases):
@@ -37,8 +47,19 @@ MCP scaffold files:
    ```
 2. Pull/normalize a Figma frame into a section plan + DS substitutions (requires MCP client):
    ```bash
-   yarn figma:map --url="https://www.figma.com/design/..." --node="354:6396"
+   # Preferred (no PAT): Figma Desktop MCP server
+   # Enable in Figma app: Dev Mode -> Inspect -> MCP server -> Enable desktop MCP server
+   yarn figma:map --source=mcp --mcp-url="http://127.0.0.1:3845/mcp" --url="https://www.figma.com/design/..." --node="354:6396"
+
+   # Fallback (PAT-based REST API)
+   # You can store FIGMA_ACCESS_TOKEN in .env.local.
+   export FIGMA_ACCESS_TOKEN=your_figma_personal_access_token
+   yarn figma:map --source=rest --url="https://www.figma.com/design/..." --node="354:6396"
    ```
+   Optional flags:
+   - `--sync-content=false` to avoid rewriting `content/landing.json`
+   - `--sync-assets=false` to avoid writing temporary Figma image URLs into content
+   - `--allow-empty=true` to bypass strict failure when Figma data cannot be fetched
 3. Build sections from the map:
    ```bash
    yarn landing:build
@@ -53,6 +74,8 @@ MCP scaffold files:
 ## Notes
 
 - This template assumes your RDS packages are available as `@rds-vue-ui/*` dependencies.
-- `FIGMA_ACCESS_TOKEN` must be set in your shell for Figma MCP usage.
+- `yarn figma:map` prefers desktop MCP by default (`--source=auto`) and falls back to REST when token is available.
+- `FIGMA_ACCESS_TOKEN` is only required for REST fallback (`--source=rest`).
+- `yarn figma:map` fails fast when URL/node is provided but neither desktop MCP nor REST data could be loaded.
 - `.vscode/mcp.json` and `.mcp.json` include example MCP server configs (Figma, Playwright, Filesystem). Adjust if your environment differs.
 - `scripts/setup-codex-mcp.sh` is idempotent; it removes and re-adds the template MCP servers for Codex.
