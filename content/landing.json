@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "headline": "A headline that matches your Figma hero",
+    "subheadline": "A short supporting line. Keep copy in content/landing.json.",
+    "primaryCta": {
+      "label": "Apply now",
+      "href": "#apply"
+    },
+    "secondaryCta": {
+      "label": "Learn more",
+      "href": "#learn-more"
+    }
+  },
+  "sections": [
+    {
+      "title": "Why this program",
+      "body": "Describe the value proposition here. This should map to an RDS Section component."
+    }
+  ],
+  "faq": {
+    "title": "FAQ",
+    "items": [
+      {
+        "title": "What is the deadline?",
+        "content": "Add deadline details here."
+      },
+      {
+        "title": "Is this online?",
+        "content": "Add modality details here."
+      }
+    ]
+  },
+  "testimonial": {
+    "title": "Hear from our community",
+    "items": [
+      {
+        "quote": "This changed my career.",
+        "name": "Student Name",
+        "role": "Program participant"
+      }
+    ]
+  },
+  "footer": {
+    "secondaryLinks": [
+      {
+        "text": "Contact",
+        "href": "https://example.com"
+      }
+    ]
+  }
+}
