@@ -4,9 +4,10 @@ Standalone marketing landing pages built with **Nuxt 3** + **RDS Vue UI** compon
 
 ## Start Here (Codex Default)
 
-1. Create a new empty repo first (GitHub/Bitbucket), then clone it locally:
+1. Create a new private GitHub repo with `gh`, then clone it:
    ```bash
-   git clone git@github.com:<your-org>/<new-repo>.git
+   gh auth status || gh auth login
+   gh repo create <your-org>/<new-repo> --private --clone
    cd <new-repo>
    ```
 2. Copy this template into that repo using Copier:
