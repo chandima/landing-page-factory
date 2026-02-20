@@ -2,6 +2,93 @@
 
 Standalone marketing landing pages built with **Nuxt 3** + **RDS Vue UI** components.
 
+## Start Here (Codex Default)
+
+1. Create a new empty repo first (GitHub/Bitbucket), then clone it locally:
+   ```bash
+   git clone git@github.com:<your-org>/<new-repo>.git
+   cd <new-repo>
+   ```
+2. Copy this template into that repo using Copier:
+   ```bash
+   # install once if needed: pipx install copier
+   copier copy --trust --vcs-ref=HEAD https://github.com/chandima/landing-page-factory.git .
+   ```
+   Alternative template source:
+   - Local path: `/path/to/landing-page-factory`
+   - Git URL: `https://github.com/chandima/landing-page-factory.git`
+3. Set up dependencies and env:
+   ```bash
+   corepack enable
+   cp .env.example .env.local
+
+   # required if @rds-vue-ui packages are in a private registry
+   npm login --registry=https://npm.edpl.us --scope=@rds-vue-ui
+
+   yarn
+   ```
+4. Configure Codex MCP servers:
+   ```bash
+   ./scripts/setup-codex-mcp.sh
+   ```
+5. Build from a Figma frame (optional; use for automated Figma-to-page generation):
+   ```bash
+   yarn ds:catalog
+   yarn figma:map --source=mcp --mcp-url="http://127.0.0.1:3845/mcp" --url="https://www.figma.com/design/..." --node="354:6396"
+   yarn landing:build
+   ```
+6. Validate and run:
+   ```bash
+   yarn lint
+   yarn build
+   yarn test:e2e
+   yarn dev
+   ```
+
+## Pure Codex TUI Options
+
+Use this when you are working directly in Codex terminal chat.
+
+1. Manual build from pasted Figma link (no mapper):
+   - Start Codex in repo root.
+   - Paste the Figma URL and ask Codex to implement section-by-section with DS-first rules.
+   - Codex should edit `content/landing.json`, `components/sections/*`, and `pages/index.vue`.
+   - Then run:
+   ```bash
+   yarn lint
+   yarn build
+   yarn test:e2e
+   ```
+2. Automated flow from pasted Figma link (recommended for repeatability):
+   - Ensure Codex MCP is configured once:
+   ```bash
+   ./scripts/setup-codex-mcp.sh
+   ```
+   - In Codex chat, provide the Figma URL + node id and ask Codex to run:
+   ```bash
+   yarn ds:catalog
+   yarn figma:map --source=mcp --mcp-url="http://127.0.0.1:3845/mcp" --url="<FIGMA_URL>" --node="<NODE_ID>"
+   yarn landing:build
+   yarn lint
+   yarn build
+   yarn test:e2e
+   ```
+
+## Caveats For Other Coding Harnesses
+
+- VS Code + Copilot:
+  - Uses `.vscode/mcp.json`
+  - Skills are available via `.github/skills` symlink
+- Claude Code:
+  - Uses `.mcp.json`
+  - Skills are available via `.claude/skills` symlink
+- If symlinks are not preserved by your environment, recreate them:
+  ```bash
+  rm -rf .github/skills .claude/skills
+  ln -s ../.agents/skills .github/skills
+  ln -s ../.agents/skills .claude/skills
+  ```
+
 ## Quickstart
 
 ```bash
