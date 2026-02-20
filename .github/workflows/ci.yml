@@ -20,8 +20,22 @@ jobs:
       - name: Enable corepack
         run: corepack enable
 
+      - name: Configure RDS registry
+        env:
+          EDPL_NPM_TOKEN: ${{ secrets.EDPL_NPM_TOKEN }}
+        run: |
+          echo "@rds-vue-ui:registry=https://npm.edpl.us/" >> ~/.npmrc
+          if [ -n "${EDPL_NPM_TOKEN}" ]; then
+            echo "//npm.edpl.us/:_authToken=${EDPL_NPM_TOKEN}" >> ~/.npmrc
+          fi
+
       - name: Install
-        run: yarn --immutable || yarn
+        run: |
+          if [ -f yarn.lock ]; then
+            yarn install --immutable
+          else
+            yarn install
+          fi
 
       - name: Build DS catalog
         run: yarn ds:catalog

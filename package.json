@@ -15,20 +15,21 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "nuxt": "^3.13.0",
-    "vue": "^3.5.8",
-    "@rds-vue-ui/rds-theme-base": "^0.5.2",
-    "@rds-vue-ui/hero-standard-apollo": "^0.2.2",
-    "@rds-vue-ui/section-apollo": "^0.1.10",
-    "@rds-vue-ui/overlap-accordion-atlas": "^0.1.15",
-    "@rds-vue-ui/section-testimonial-falcon": "^0.3.0",
+    "@rds-vue-ui/analytics-gs-composable": "^0.0.6",
     "@rds-vue-ui/footer-standard": "^0.4.0",
-    "@rds-vue-ui/analytics-gs-composable": "^0.0.6"
+    "@rds-vue-ui/hero-standard-apollo": "^0.2.2",
+    "@rds-vue-ui/overlap-accordion-atlas": "^0.1.15",
+    "@rds-vue-ui/rds-theme-base": "^0.5.2",
+    "@rds-vue-ui/section-apollo": "^0.1.10",
+    "@rds-vue-ui/section-testimonial-falcon": "^0.3.0",
+    "nuxt": "^3.13.0",
+    "vue": "^3.5.8"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.7.6",
+    "@playwright/test": "^1.49.1",
     "eslint": "^9.9.0",
-    "typescript": "^5.4.2",
-    "@playwright/test": "^1.49.1"
+    "sass-embedded": "^1.97.3",
+    "typescript": "^5.4.2"
   }
 }

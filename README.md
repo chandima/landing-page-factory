@@ -8,6 +8,9 @@ Standalone marketing landing pages built with **Nuxt 3** + **RDS Vue UI** compon
 # Node 18+ recommended
 corepack enable
 
+# if your org requires auth for npm.edpl.us:
+# npm login --registry=https://npm.edpl.us --scope=@rds-vue-ui
+
 yarn
 yarn dev
 ```
@@ -20,7 +23,7 @@ yarn dev
    ```
 2. Pull/normalize a Figma frame into a section plan + DS substitutions (requires MCP client):
    ```bash
-   yarn figma:map
+   yarn figma:map --url="https://www.figma.com/design/..." --node="354:6396"
    ```
 3. Build sections from the map:
    ```bash

@@ -1,3 +1,8 @@
+---
+name: landing-reviewer
+description: Run lint/build/e2e checks and report DS usage, bespoke exceptions, and implementation deltas.
+---
+
 # Skill: landing-reviewer
 
 ## Purpose

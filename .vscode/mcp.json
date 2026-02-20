@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "figma": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "@figma/mcp-server"],
       "env": {
@@ -8,16 +9,18 @@
       }
     },
     "figma-remote": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/client-http", "https://mcp.figma.com/mcp"]
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
     },
     "playwright": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "@playwright/mcp@latest"]
     },
     "filesystem": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"]
     }
   }
 }

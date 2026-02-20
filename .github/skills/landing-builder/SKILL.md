@@ -1,3 +1,8 @@
+---
+name: landing-builder
+description: Generate and validate Nuxt section composition from figma-map and RDS catalog artifacts with DS-first enforcement.
+---
+
 # Skill: landing-builder
 
 ## Purpose

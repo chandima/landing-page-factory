@@ -1,3 +1,8 @@
+---
+name: figma-to-rds-map
+description: Convert a Figma frame into a section-first node-to-RDS mapping with explicit substitution confidence and exceptions.
+---
+
 # Skill: figma-to-rds-map
 
 ## Purpose

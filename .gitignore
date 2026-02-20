@@ -7,3 +7,8 @@
 .env.*
 playwright-report
 test-results
+node_modules
+.yarn/install-state.gz
+content/rds-catalog.json
+content/figma-map.json
+content/build-report.json

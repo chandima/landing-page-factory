@@ -1,3 +1,8 @@
+---
+name: rds-catalog
+description: Build and refresh the RDS package catalog used for DS-first component substitution decisions.
+---
+
 # Skill: rds-catalog
 
 ## Purpose
