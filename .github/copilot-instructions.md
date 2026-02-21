@@ -44,3 +44,15 @@ Use the skills in `.agents/skills/` for structured workflows:
 - `figma-to-page` — full Figma-to-page pipeline (extract → map → implement → verify)
 - `landing-reviewer` — lint/build/e2e checks and DS compliance review
 - `rds-components` — comprehensive reference for all 90 RDS Vue UI components (browse/search ad-hoc)
+
+## Symlink protection
+
+These paths are **symlinks** to `.agents/skills/` — NEVER delete, replace, or overwrite them:
+- `.claude/skills/` → `../.agents/skills` (for Claude Code)
+- `.github/skills/` → `../.agents/skills` (for backward compat)
+
+Always edit skills in `.agents/skills/` (the canonical source). If a symlink is broken, recreate it:
+```bash
+ln -s ../.agents/skills .claude/skills
+ln -s ../.agents/skills .github/skills
+```

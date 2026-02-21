@@ -24,5 +24,6 @@ Skills live in `.agents/skills/` (symlinked to `.claude/skills/` for Claude Code
 
 - The Figma MCP server is configured in `.vscode/mcp.json` (Framelink protocol).
 - `content/rds-catalog.json` is auto-generated — DO NOT hand-edit.
-- Edit skills only in `.agents/skills/`, not in `.claude/skills/` (symlink).
+- **Symlink protection**: `.claude/skills/` is a symlink → `.agents/skills/`. NEVER delete, replace, or overwrite it. Edit skills only in `.agents/skills/`.
+- If the symlink is broken, recreate it: `ln -s ../.agents/skills .claude/skills`
 - See `AGENTS.md` for: component decision tree, RDS token reference, content schema, workflow phases, and definition of done.
