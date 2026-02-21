@@ -87,6 +87,14 @@ Follow the content schema documented in AGENTS.md.
 
 ### Step 5: Implement sections (one at a time)
 
+**Before writing any wrapper**, read [references/SECTION-PATTERNS.md](references/SECTION-PATTERNS.md).
+It documents critical DS gotchas (CTA via slots, nav item shape transforms,
+single-item testimonials, field renames) that will save you from SSR crashes and
+silent failures.
+
+The template ships with reference wrappers in `components/sections/` — study
+them as DS adapter examples, then replace/extend with Figma-specific content.
+
 For each mapped section, create `components/sections/XxxSection.vue`:
 
 ```vue
@@ -152,6 +160,12 @@ When complete, report:
 2. **Bespoke markup** — list any non-DS markup with justification
 3. **Content completeness** — any placeholder text remaining
 4. **Visual deltas** — known differences from Figma and why
+
+---
+
+## References
+
+- [references/SECTION-PATTERNS.md](references/SECTION-PATTERNS.md) — annotated DS adapter patterns with code snippets and gotchas for all 9 shipped wrappers
 
 ---
 

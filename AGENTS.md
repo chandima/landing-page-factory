@@ -254,9 +254,11 @@ interface LandingContent {
 
 ---
 
-## Template sections (as shipped)
+## Template sections — DS adapter examples
 
-The template ships with 9 section components composing a landing page. Sections are dynamically rendered from the `sections[]` array in `landing.json` using a `type` → component registry in `pages/index.vue`.
+The template ships with 9 section wrappers that serve as **DS adapter examples** — reference implementations showing how to bridge `landing.json` content into DS component APIs. They encode non-obvious patterns (slot-based CTAs, nav item shape transforms, carousel state, field renames) documented in `.agents/skills/figma-to-page/references/SECTION-PATTERNS.md`.
+
+Sections are dynamically rendered from the `sections[]` array in `landing.json` using a `type` → component registry in `pages/index.vue`.
 
 | Section | Component | DS Package | Type / Content key |
 |---------|-----------|------------|-------------------|
@@ -270,7 +272,7 @@ The template ships with 9 section components composing a landing page. Sections 
 | Lead form | `FormSection.vue` | Bespoke (DS-styled) | `type: "form"` |
 | Footer | `BaseFooter.vue` | `footer-standard` | `footer` (top-level) |
 
-When implementing a new landing page, replace the placeholder content in `landing.json` and add/remove section entries as the Figma design requires. To add a new section type, create a wrapper in `components/sections/` and register it in `sectionRegistry`.
+When implementing a new landing page from a Figma design, treat these wrappers as starting points: study the pattern, then replace or extend with Figma-specific content. Add/remove section entries in `landing.json` as needed. To add a new section type, create a wrapper in `components/sections/` and register it in `sectionRegistry`.
 
 ---
 
