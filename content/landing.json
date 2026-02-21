@@ -1,45 +1,85 @@
 {
+  "meta": {
+    "title": "Your Program Name | Arizona State University",
+    "description": "Discover your path at ASU. Apply now to join a top-ranked program.",
+    "ogImage": "",
+    "canonicalUrl": ""
+  },
+  "header": {
+    "homeTitle": "Your Program",
+    "isSticky": true,
+    "navItems": [
+      { "text": "Why this program", "href": "#why-this-program" },
+      { "text": "FAQ", "href": "#faq" },
+      { "text": "Testimonials", "href": "#testimonials" }
+    ],
+    "displayApplyNow": true,
+    "applyNowText": "Apply now",
+    "applyNowRedirectUrl": "#apply"
+  },
   "hero": {
     "headline": "A headline that matches your Figma hero",
     "subheadline": "A short supporting line. Keep copy in content/landing.json.",
+    "id": "hero",
     "primaryCta": {
       "label": "Apply now",
       "href": "#apply"
     },
     "secondaryCta": {
       "label": "Learn more",
-      "href": "#learn-more"
+      "href": "#why-this-program"
     }
   },
   "sections": [
     {
+      "type": "value",
       "title": "Why this program",
-      "body": "Describe the value proposition here. This should map to an RDS Section component."
+      "body": "Describe the value proposition here. This should map to an RDS Section component.",
+      "id": "why-this-program",
+      "imagePosition": "right",
+      "variant": "white",
+      "cta": {
+        "label": "Explore curriculum",
+        "href": "#faq"
+      }
+    },
+    {
+      "type": "faq",
+      "title": "FAQ",
+      "id": "faq",
+      "items": [
+        {
+          "title": "What is the deadline?",
+          "content": "Add deadline details here."
+        },
+        {
+          "title": "Is this online?",
+          "content": "Add modality details here."
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "title": "Hear from our community",
+      "id": "testimonials",
+      "items": [
+        {
+          "quote": "This changed my career.",
+          "name": "Student Name",
+          "role": "Program participant"
+        },
+        {
+          "quote": "The flexibility allowed me to work full-time while earning my degree.",
+          "name": "Another Student",
+          "role": "Online graduate"
+        }
+      ],
+      "cta": {
+        "label": "Read more stories",
+        "href": "#apply"
+      }
     }
   ],
-  "faq": {
-    "title": "FAQ",
-    "items": [
-      {
-        "title": "What is the deadline?",
-        "content": "Add deadline details here."
-      },
-      {
-        "title": "Is this online?",
-        "content": "Add modality details here."
-      }
-    ]
-  },
-  "testimonial": {
-    "title": "Hear from our community",
-    "items": [
-      {
-        "quote": "This changed my career.",
-        "name": "Student Name",
-        "role": "Program participant"
-      }
-    ]
-  },
   "footer": {
     "secondaryLinks": [
       {

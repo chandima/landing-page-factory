@@ -3,7 +3,13 @@ import { OverlapAccordionAtlas } from "@rds-vue-ui/overlap-accordion-atlas";
 import { computed } from "vue";
 
 const props = defineProps<{
-  model: { title: string; items: Array<{ title: string; content: string }> };
+  model: {
+    title: string;
+    items: Array<{ title: string; content: string; image?: string }>;
+    image?: string;
+    variant?: string;
+    id?: string;
+  };
 }>();
 
 const fallbackImage =
@@ -19,10 +25,14 @@ const accordionItems = computed(() =>
 </script>
 
 <template>
-  <section :aria-label="props.model.title">
+  <section
+    :id="props.model.id"
+    :aria-label="props.model.title"
+    :class="['faq-section', props.model.variant ? `bg-${props.model.variant}` : '']"
+  >
     <h2 class="section-title">{{ props.model.title }}</h2>
     <OverlapAccordionAtlas
-      :default-accordion-image="fallbackImage"
+      :default-accordion-image="props.model.image || fallbackImage"
       :accordion-items="accordionItems"
     />
   </section>

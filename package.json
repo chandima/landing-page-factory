@@ -14,11 +14,15 @@
   },
   "dependencies": {
     "@rds-vue-ui/analytics-gs-composable": "^0.0.6",
+    "@rds-vue-ui/card-icon": "^0.2.0",
     "@rds-vue-ui/footer-standard": "^0.4.0",
+    "@rds-vue-ui/header-standard": "^0.3.0",
     "@rds-vue-ui/hero-standard-apollo": "^0.2.2",
+    "@rds-vue-ui/hero-video-apollo": "^0.5.0",
     "@rds-vue-ui/overlap-accordion-atlas": "^0.1.15",
     "@rds-vue-ui/rds-theme-base": "^0.5.2",
     "@rds-vue-ui/section-apollo": "^0.1.10",
+    "@rds-vue-ui/section-grid-atlas": "^0.1.9",
     "@rds-vue-ui/section-testimonial-falcon": "^0.3.0",
     "nuxt": "^3.13.0",
     "vue": "^3.5.8"

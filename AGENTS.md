@@ -42,14 +42,18 @@ The agent should complete the full cycle autonomously: extract design → map to
 
 ## Installed DS packages
 
-These 7 RDS packages are pre-installed and available in the template:
+These 11 RDS packages are pre-installed and available in the template:
 
 | Package | Purpose |
-|---------|---------|
+|---------|--------|
 | `@rds-vue-ui/hero-standard-apollo` | Full-width hero with background image, text overlay, CTAs |
+| `@rds-vue-ui/hero-video-apollo` | Video hero with mobile image fallback, gradient overlay |
 | `@rds-vue-ui/section-apollo` | General content section (text, image, CTA) |
+| `@rds-vue-ui/section-grid-atlas` | Grid layout section for card arrangements |
+| `@rds-vue-ui/card-icon` | Icon card with title, body, CTA (used inside grid) |
 | `@rds-vue-ui/overlap-accordion-atlas` | Accordion with optional side image (FAQ) |
 | `@rds-vue-ui/section-testimonial-falcon` | Testimonial carousel/spotlight |
+| `@rds-vue-ui/header-standard` | ASU-branded sticky header with nav + CTAs |
 | `@rds-vue-ui/footer-standard` | ASU-branded footer |
 | `@rds-vue-ui/analytics-gs-composable` | Google Analytics composable |
 | `@rds-vue-ui/rds-theme-base` | CSS custom properties and base tokens |
@@ -161,8 +165,14 @@ Enable the Figma Desktop MCP in Figma app: Dev Mode → Inspect → MCP server �
 | `light-3` | #D0D0D0 | Medium gray |
 | `light-4` | #BFBFBF | Darker gray |
 
-### Universal CTA pattern
-All section/hero components support: `ctaLabel`, `ctaHref`, `ctaTarget`, `showCta`
+### CTA wiring patterns
+CTA integration varies per component — check `content/rds-catalog.json` for each:
+- **HeroStandardApollo**: No CTA props — use `below-text` slot with custom CTA links
+- **SectionApollo**: No CTA props — add CTA links in `default` slot
+- **SectionTestimonialFalcon**: Native CTA via `showCta`, `footerCtaText`, `footerCtaLink` props
+- **HeroVideoApollo**: Native CTA via `displayCta`, `ctaText`, `ctaLink` props
+- **CardIcon**: Native CTA via `displayCta`, `ctaText`, `ctaLink` props
+- **FormSection**: Bespoke — `submitLabel` + `submitHref` in content JSON
 
 ### Size tokens
 `xs` (12px) | `small` (14px) | `medium` (16px) | `large` (24px) | `xl` (32px)
@@ -173,30 +183,44 @@ All section/hero components support: `ctaLabel`, `ctaHref`, `ctaTarget`, `showCt
 
 All page content lives in `content/landing.json`. Components receive their slice via `:model` prop binding in `pages/index.vue`.
 
+The `sections` array uses a `type` field to select which component renders it. The `sectionRegistry` in `pages/index.vue` maps types to Vue components.
+
 ```typescript
 interface LandingContent {
+  meta?: {
+    title: string;
+    description: string;
+    ogImage?: string;
+    canonicalUrl?: string;
+  };
+  header?: {
+    homeTitle?: string;
+    isSticky?: boolean;
+    navItems?: Array<{ text: string; href: string }>;
+    displayApplyNow?: boolean;
+    applyNowText?: string;
+    applyNowRedirectUrl?: string;
+    displayRfiCta?: boolean;
+    rfiCtaText?: string;
+    rfiAnchorId?: string;
+  };
   hero: {
     headline: string;
     subheadline?: string;
     bgImageSource?: string;
     primaryCta?: { label: string; href: string };
     secondaryCta?: { label: string; href: string };
+    variant?: string;
+    id?: string;
   };
   sections: Array<{
-    title: string;
-    body: string;
-    imageSource?: string;
-    imagePosition?: "left" | "right";
+    type: "value" | "faq" | "testimonial" | "cardGrid" | "video" | "form";
+    title?: string;
+    id?: string;
     variant?: string;
+    // type-specific fields (see section components for full props)
+    [key: string]: unknown;
   }>;
-  faq: {
-    title: string;
-    items: Array<{ title: string; content: string; image?: string }>;
-  };
-  testimonial: {
-    title: string;
-    items: Array<{ quote: string; name: string; role: string; image?: string }>;
-  };
   footer: {
     secondaryLinks: Array<{ text: string; href: string }>;
   };
@@ -232,43 +256,45 @@ interface LandingContent {
 
 ## Template sections (as shipped)
 
-The template ships with 5 section components composing a basic landing page:
+The template ships with 9 section components composing a landing page. Sections are dynamically rendered from the `sections[]` array in `landing.json` using a `type` → component registry in `pages/index.vue`.
 
-| Section | Component | DS Package | Content key |
-|---------|-----------|------------|-------------|
-| Hero | `HeroSection.vue` | `hero-standard-apollo` | `hero` |
-| Value props | `ValueSection.vue` | `section-apollo` | `sections[]` |
-| FAQ | `FAQSection.vue` | `overlap-accordion-atlas` | `faq` |
-| Testimonials | `TestimonialSection.vue` | `section-testimonial-falcon` | `testimonial` |
-| Footer | `BaseFooter.vue` | `footer-standard` | `footer` |
+| Section | Component | DS Package | Type / Content key |
+|---------|-----------|------------|-------------------|
+| Header | `HeaderSection.vue` | `header-standard` | `header` (top-level) |
+| Hero | `HeroSection.vue` | `hero-standard-apollo` | `hero` (top-level) |
+| Value props | `ValueSection.vue` | `section-apollo` | `type: "value"` |
+| Card grid | `CardGridSection.vue` | `section-grid-atlas` + `card-icon` | `type: "cardGrid"` |
+| FAQ | `FAQSection.vue` | `overlap-accordion-atlas` | `type: "faq"` |
+| Testimonials | `TestimonialSection.vue` | `section-testimonial-falcon` | `type: "testimonial"` |
+| Video hero | `VideoSection.vue` | `hero-video-apollo` | `type: "video"` |
+| Lead form | `FormSection.vue` | Bespoke (DS-styled) | `type: "form"` |
+| Footer | `BaseFooter.vue` | `footer-standard` | `footer` (top-level) |
 
-When implementing a new landing page, replace the placeholder content in `landing.json` and add/remove section components as the Figma design requires.
+When implementing a new landing page, replace the placeholder content in `landing.json` and add/remove section entries as the Figma design requires. To add a new section type, create a wrapper in `components/sections/` and register it in `sectionRegistry`.
 
 ---
 
-## Roadmap (planned enhancements)
+## Roadmap (remaining enhancements)
 
-These features are identified but not yet implemented. Agents working on this template should be aware of them and may implement them as needed:
+Items marked ✅ are implemented. Remaining items are ordered by priority.
 
-### P0 — Critical gaps
-- **Wire CTAs end-to-end**: Ensure `primaryCta`/`secondaryCta` from `landing.json` flow through to all section components' `ctaLabel`/`ctaHref`/`showCta` props.
-- **Lead capture form section**: New `FormSection.vue` wrapping an RDS form component or bespoke form with DS styling.
-- **Testimonial carousel**: `SectionTestimonialFalcon` only shows one item — need to render all items (carousel or grid).
+### ✅ Completed
+- ~~Wire CTAs end-to-end~~ — CTAs flow through all section wrappers via slots or native props
+- ~~Lead capture form section~~ — `FormSection.vue` with bespoke DS-styled form
+- ~~Testimonial carousel~~ — `TestimonialSection.vue` renders all items with prev/next navigation
+- ~~Dynamic section ordering~~ — `sectionRegistry` pattern with `type` field in `sections[]`
+- ~~Card grid section~~ — `CardGridSection.vue` using `section-grid-atlas` + `card-icon`
+- ~~Header / sticky nav~~ — `HeaderSection.vue` using `header-standard`
+- ~~Section variant prop~~ — All sections accept `variant` for background color control
+- ~~SEO / OG meta~~ — `useHead()` populates meta tags from `landing.json` `meta` object
+- ~~Video hero / video section~~ — `VideoSection.vue` using `hero-video-apollo`
+- ~~Anchor IDs + smooth scroll~~ — All sections accept `id` for anchor navigation
 
-### P1 — Important improvements
-- **Dynamic section ordering**: Drive section order from `landing.json` instead of hardcoding in `pages/index.vue`. Use a section-type registry pattern.
-- **Card grid section**: New `CardGridSection.vue` for feature grids, program cards, etc.
-- **Header / sticky nav**: Top navigation bar with anchor links and CTA.
-- **Section variant prop**: Alternating background colors driven by `variant` in content JSON.
+### P1 — Important (remaining)
 - **Image pipeline**: Download Figma images to `public/images/` and optimize (WebP, responsive srcset).
-
-### P2 — Nice to have
-- **SEO / OG meta**: Populate `<head>` meta tags from `landing.json` (title, description, og:image).
-- **Video hero / video section**: Support video backgrounds and embedded video players.
-- **Anchor IDs + smooth scroll**: Auto-generate `id` attributes for sections, enable smooth scroll nav.
 - **Analytics composable wiring**: Connect `@rds-vue-ui/analytics-gs-composable` to CTA click events.
 
-### P3 — Future
+### P2 — Future
 - **Content JSON schema validation**: JSON Schema or Zod validation for `landing.json` at build time.
 - **Parallax / animation sections**: Scroll-triggered animations using DS motion tokens.
 - **Multi-page support**: Multiple landing pages from multiple content JSON files.

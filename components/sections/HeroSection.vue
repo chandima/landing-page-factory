@@ -4,10 +4,13 @@ import { HeroStandardApollo } from "@rds-vue-ui/hero-standard-apollo";
 const props = defineProps<{
   model: {
     headline: string;
-    subheadline: string;
+    subheadline?: string;
     backgroundImage?: string;
-    primaryCta: { label: string; href: string };
+    bgImageSource?: string;
+    primaryCta?: { label: string; href: string };
     secondaryCta?: { label: string; href: string };
+    variant?: string;
+    id?: string;
   };
 }>();
 
@@ -16,11 +19,61 @@ const fallbackBg =
 </script>
 
 <template>
-  <!-- Prefer DS component. Wrap only as needed. -->
   <HeroStandardApollo
+    :id="props.model.id"
     :title="props.model.headline"
-    :text="props.model.subheadline"
-    :show-text="true"
-    :bg-image-source="props.model.backgroundImage || fallbackBg"
-  />
+    :text="props.model.subheadline || ''"
+    :show-text="!!props.model.subheadline"
+    :bg-image-source="props.model.bgImageSource || props.model.backgroundImage || fallbackBg"
+    :title-variant="(props.model.variant as any) || 'white'"
+  >
+    <template v-if="props.model.primaryCta || props.model.secondaryCta" #below-text>
+      <div class="hero-ctas">
+        <a
+          v-if="props.model.primaryCta"
+          :href="props.model.primaryCta.href"
+          class="hero-cta hero-cta--primary"
+        >
+          {{ props.model.primaryCta.label }}
+        </a>
+        <a
+          v-if="props.model.secondaryCta"
+          :href="props.model.secondaryCta.href"
+          class="hero-cta hero-cta--secondary"
+        >
+          {{ props.model.secondaryCta.label }}
+        </a>
+      </div>
+    </template>
+  </HeroStandardApollo>
 </template>
+
+<style scoped>
+.hero-ctas {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.hero-cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: opacity 0.2s;
+}
+.hero-cta:hover {
+  opacity: 0.85;
+}
+.hero-cta--primary {
+  background-color: #ffc627;
+  color: #191919;
+}
+.hero-cta--secondary {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+</style>

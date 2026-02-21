@@ -1,20 +1,65 @@
 <script setup lang="ts">
 import landing from "~/content/landing.json";
+import HeaderSection from "~/components/sections/HeaderSection.vue";
 import HeroSection from "~/components/sections/HeroSection.vue";
 import ValueSection from "~/components/sections/ValueSection.vue";
 import FAQSection from "~/components/sections/FAQSection.vue";
 import TestimonialSection from "~/components/sections/TestimonialSection.vue";
+import CardGridSection from "~/components/sections/CardGridSection.vue";
+import VideoSection from "~/components/sections/VideoSection.vue";
+import FormSection from "~/components/sections/FormSection.vue";
 import BaseFooter from "~/components/BaseFooter.vue";
+import type { Component } from "vue";
+
+/**
+ * Section type registry — maps `type` field in landing.json sections
+ * to Vue components. Add new section types here when installing new
+ * DS packages or creating new section wrappers.
+ */
+const sectionRegistry: Record<string, Component> = {
+  value: ValueSection,
+  faq: FAQSection,
+  testimonial: TestimonialSection,
+  cardGrid: CardGridSection,
+  video: VideoSection,
+  form: FormSection,
+};
+
+// SEO / Open Graph meta from content
+const meta = "meta" in landing ? (landing as Record<string, unknown>).meta as Record<string, string> | undefined : undefined;
+if (meta) {
+  useHead({
+    title: meta.title || "Landing Page",
+    meta: [
+      ...(meta.description ? [{ name: "description", content: meta.description }] : []),
+      ...(meta.title ? [{ property: "og:title", content: meta.title }] : []),
+      ...(meta.description ? [{ property: "og:description", content: meta.description }] : []),
+      ...(meta.ogImage ? [{ property: "og:image", content: meta.ogImage }] : []),
+      ...(meta.canonicalUrl ? [{ property: "og:url", content: meta.canonicalUrl }] : []),
+      { property: "og:type", content: "website" },
+      ...(meta.title ? [{ name: "twitter:title", content: meta.title }] : []),
+      ...(meta.description ? [{ name: "twitter:description", content: meta.description }] : []),
+      ...(meta.ogImage ? [{ name: "twitter:image", content: meta.ogImage }] : []),
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    ...(meta.canonicalUrl ? { link: [{ rel: "canonical", href: meta.canonicalUrl }] } : {}),
+  });
+}
 </script>
 
 <template>
   <main>
+    <HeaderSection v-if="landing.header" :model="landing.header" />
     <HeroSection :model="landing.hero" />
 
     <div class="container">
-      <ValueSection v-for="(s, i) in landing.sections" :key="i" :model="s" />
-      <FAQSection :model="landing.faq" />
-      <TestimonialSection :model="landing.testimonial" />
+      <template v-for="(section, i) in landing.sections" :key="section.id || i">
+        <component
+          :is="sectionRegistry[section.type]"
+          v-if="sectionRegistry[section.type]"
+          :model="section"
+        />
+      </template>
     </div>
 
     <BaseFooter :model="landing.footer" />
