@@ -10,8 +10,6 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "ds:catalog": "node scripts/ds-catalog.build.mjs",
-    "figma:map": "node --env-file-if-exists=.env.local scripts/figma-map.normalize.mjs",
-    "landing:build": "node scripts/landing-builder.mjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {
