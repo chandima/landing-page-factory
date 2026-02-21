@@ -44,4 +44,3 @@ Use the skills in `.agents/skills/` for structured workflows:
 - `figma-to-page` — full Figma-to-page pipeline (extract → map → implement → verify)
 - `landing-reviewer` — lint/build/e2e checks and DS compliance review
 - `rds-components` — comprehensive reference for all 90 RDS Vue UI components (browse/search ad-hoc)
-- `rds-catalog` — build and refresh the auto-generated component catalog

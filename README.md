@@ -1,8 +1,21 @@
 # RDS Nuxt Landing Template
 
-Standalone marketing landing pages built with **Nuxt 3** + **RDS Vue UI** components.
+Standalone marketing landing pages built with **Nuxt 3** + **RDS Vue UI** design system components.
 
-## Start Here (Codex Default)
+## Quickstart
+
+```bash
+# Node 18+ recommended
+corepack enable
+
+# if your org requires auth for npm.edpl.us:
+# npm login --registry=https://npm.edpl.us --scope=@rds-vue-ui
+
+yarn
+yarn dev          # → http://localhost:3000
+```
+
+## Creating a new landing page from this template
 
 1. Create a new private GitHub repo with `gh`, then clone it:
    ```bash
@@ -15,7 +28,7 @@ Standalone marketing landing pages built with **Nuxt 3** + **RDS Vue UI** compon
    # install once if needed: pipx install copier
    copier copy --trust --vcs-ref=HEAD https://github.com/chandima/landing-page-factory.git .
    ```
-   Alternative template source:
+   Alternative template sources:
    - Local path: `/path/to/landing-page-factory`
    - Git URL: `https://github.com/chandima/landing-page-factory.git`
 3. Set up dependencies and env:
@@ -28,80 +41,96 @@ Standalone marketing landing pages built with **Nuxt 3** + **RDS Vue UI** compon
 
    yarn
    ```
-4. Configure Codex MCP servers:
-   ```bash
-   ./scripts/setup-codex-mcp.sh
-   ```
-5. Build from a Figma frame (optional; use for automated Figma-to-page generation):
-   ```bash
-   yarn ds:catalog
-   yarn figma:map --source=mcp --mcp-url="http://127.0.0.1:3845/mcp" --url="https://www.figma.com/design/..." --node="354:6396"
-   yarn landing:build
-   ```
-6. Validate and run:
-   ```bash
-   yarn lint
-   yarn build
-   yarn test:e2e
-   yarn dev
-   ```
 
-## Pure Codex TUI Options
+## Available commands
 
-Use this when you are working directly in Codex terminal chat.
+| Command | Purpose |
+|---------|---------|
+| `yarn dev` | Start dev server at `http://localhost:3000` |
+| `yarn build` | Full production build (catches type + template errors) |
+| `yarn lint` | ESLint check |
+| `yarn test:e2e` | Playwright E2E + visual regression tests |
+| `yarn ds:catalog` | Refresh DS component catalog → `content/rds-catalog.json` |
+| `yarn ds:catalog --ds-source=<path>` | Catalog with full DS monorepo (adds `notInstalled` section) |
+| `yarn preview` | Preview production build |
+| `yarn generate` | Static site generation |
 
-1. Manual build from pasted Figma link (no mapper):
-   - Start Codex in repo root.
-   - Paste the Figma URL and ask Codex to implement section-by-section with DS-first rules.
-   - Codex should edit `content/landing.json`, `components/sections/*`, and `pages/index.vue`.
-   - Then run:
-   ```bash
-   yarn lint
-   yarn build
-   yarn test:e2e
-   ```
-2. Automated flow from pasted Figma link (recommended for repeatability):
-   - Ensure Codex MCP is configured once:
-   ```bash
-   ./scripts/setup-codex-mcp.sh
-   ```
-   - In Codex chat, provide the Figma URL + node id and ask Codex to run:
-   ```bash
-   yarn ds:catalog
-   yarn figma:map --source=mcp --mcp-url="http://127.0.0.1:3845/mcp" --url="<FIGMA_URL>" --node="<NODE_ID>"
-   yarn landing:build
-   yarn lint
-   yarn build
-   yarn test:e2e
-   ```
+## What's included
 
-## Caveats For Other Coding Harnesses
+The template ships with 5 section components composing a basic landing page:
 
-- VS Code + Copilot:
-  - Uses `.vscode/mcp.json`
-  - Skills are available via `.github/skills` symlink
-- Claude Code:
-  - Uses `.mcp.json`
-  - Skills are available via `.claude/skills` symlink
-- If symlinks are not preserved by your environment, recreate them:
-  ```bash
-  rm -rf .github/skills .claude/skills
-  ln -s ../.agents/skills .github/skills
-  ln -s ../.agents/skills .claude/skills
-  ```
+| Section | Component | DS Package |
+|---------|-----------|------------|
+| Hero | `HeroSection.vue` | `@rds-vue-ui/hero-standard-apollo` |
+| Value props | `ValueSection.vue` | `@rds-vue-ui/section-apollo` |
+| FAQ | `FAQSection.vue` | `@rds-vue-ui/overlap-accordion-atlas` |
+| Testimonials | `TestimonialSection.vue` | `@rds-vue-ui/section-testimonial-falcon` |
+| Footer | `BaseFooter.vue` | `@rds-vue-ui/footer-standard` |
 
-## Quickstart
+All content lives in `content/landing.json`. Section components receive their data slice via `:model` prop binding in `pages/index.vue`. Replace the placeholder content and add/remove section components as the Figma design requires.
 
+## Agentic workflow (Figma → RDS → Nuxt)
+
+This template is optimized for AI agent-driven development. Provide a Figma frame URL, and the agent extracts the design, maps sections to RDS DS components, implements Vue SFCs, and verifies visually.
+
+### How agents use this template
+
+1. **Read AGENTS.md** — comprehensive instructions, non-negotiables, component decision tree, workflow phases
+2. **Refresh the catalog** — `yarn ds:catalog` builds `content/rds-catalog.json` with full component API introspection
+3. **Read Figma** — via MCP servers (see below), walk the node tree top-to-bottom
+4. **Map to DS components** — match Figma sections against `figmaSignals` in the catalog
+5. **Implement section-by-section** — create `components/sections/XxxSection.vue`, extract content to `content/landing.json`
+6. **Verify** — `yarn lint && yarn build && yarn test:e2e`
+
+### Agent instruction files
+
+| File | Read by | Purpose |
+|------|---------|---------|
+| `AGENTS.md` | Codex, Copilot, OpenCode, Cursor | Primary instructions (comprehensive) |
+| `CLAUDE.md` | Claude Code | Thin pointer → `AGENTS.md` |
+| `.github/copilot-instructions.md` | VS Code Copilot | Shorter summary of key rules |
+
+### Skills
+
+Canonical skills live in `.agents/skills/` ([Vercel `skills` convention](https://www.npmjs.com/package/skills): single source + symlink aliases):
+
+| Skill | Purpose |
+|-------|---------|
+| `figma-to-page` | Full Figma-to-page pipeline (extract → map → implement → verify) |
+| `landing-reviewer` | Lint, build, E2E, DS compliance audit |
+| `rds-components` | Browse all 90 DS components by category with descriptions and install commands |
+
+Symlink aliases (DO NOT edit directly):
+- `.github/skills` → `../.agents/skills`
+- `.claude/skills` → `../.agents/skills`
+
+If symlinks are not preserved by your environment, recreate them:
 ```bash
-# Node 18+ recommended
-corepack enable
-
-# if your org requires auth for npm.edpl.us:
-# npm login --registry=https://npm.edpl.us --scope=@rds-vue-ui
-
-yarn
-yarn dev
+rm -rf .github/skills .claude/skills
+ln -s ../.agents/skills .github/skills
+ln -s ../.agents/skills .claude/skills
 ```
+
+### MCP servers
+
+Four MCP servers are configured for agent tooling:
+
+| Server | Type | Endpoint | Purpose |
+|--------|------|----------|---------|
+| `figma-desktop` | HTTP | `http://127.0.0.1:3845/mcp` | Figma Desktop MCP (no PAT needed) |
+| `figma-remote` | HTTP | `https://mcp.figma.com/mcp` | Figma Cloud MCP (needs `FIGMA_ACCESS_TOKEN`) |
+| `playwright` | stdio | `npx @playwright/mcp@latest` | Browser automation and screenshots |
+| `filesystem` | stdio | `npx @modelcontextprotocol/server-filesystem <root>` | Workspace file access |
+
+Config locations by harness:
+
+| Harness | Config |
+|---------|--------|
+| VS Code + Copilot | `.vscode/mcp.json` |
+| Claude Code | `.mcp.json` |
+| Codex | Run `./scripts/setup-codex-mcp.sh` (writes to `~/.codex/config.toml`) |
+
+Enable the Figma Desktop MCP in Figma app: Dev Mode → Inspect → MCP server → Enable desktop MCP server.
 
 ## Environment
 
@@ -111,59 +140,24 @@ Create a local env file for optional Figma settings:
 cp .env.example .env.local
 ```
 
-`yarn figma:map` auto-loads `.env.local`.
+`FIGMA_ACCESS_TOKEN` is only required for the Figma Cloud MCP (`figma-remote`) fallback.
 
-## Agent scaffolds
+## DS catalog builder
 
-Canonical skills live in `.agents/skills` (Vercel `skills` style: single source + symlink aliases):
+The `scripts/ds-catalog.build.mjs` script (~895 lines) reads `.vue.d.ts` files from installed `@rds-vue-ui/*` packages to extract:
 
-- `.agents/skills` (source of truth for Codex/Copilot-style agents)
-- `.github/skills` -> `../.agents/skills` (symlink alias)
-- `.claude/skills` -> `../.agents/skills` (symlink alias)
+- **Props** — full TypeScript interface with types and defaults
+- **Slots** — named slot definitions
+- **Events** — emitted event signatures
+- **Visual metadata** — category, visual pattern, Figma matching signals, common pitfalls
 
-MCP scaffold files:
+Output: `content/rds-catalog.json` (auto-generated, do NOT hand-edit).
 
-- VS Code: `.vscode/mcp.json`
-- Claude Code: `.mcp.json`
-- Codex: run `./scripts/setup-codex-mcp.sh` (writes to `~/.codex/config.toml`)
-
-## Agentic workflow (Figma → RDS → Nuxt)
-
-1. Refresh the design-system catalog:
-   ```bash
-   yarn ds:catalog
-   ```
-2. Pull/normalize a Figma frame into a section plan + DS substitutions (requires MCP client):
-   ```bash
-   # Preferred (no PAT): Figma Desktop MCP server
-   # Enable in Figma app: Dev Mode -> Inspect -> MCP server -> Enable desktop MCP server
-   yarn figma:map --source=mcp --mcp-url="http://127.0.0.1:3845/mcp" --url="https://www.figma.com/design/..." --node="354:6396"
-
-   # Fallback (PAT-based REST API)
-   # You can store FIGMA_ACCESS_TOKEN in .env.local.
-   export FIGMA_ACCESS_TOKEN=your_figma_personal_access_token
-   yarn figma:map --source=rest --url="https://www.figma.com/design/..." --node="354:6396"
-   ```
-   Optional flags:
-   - `--sync-content=false` to avoid rewriting `content/landing.json`
-   - `--sync-assets=false` to avoid writing temporary Figma image URLs into content
-   - `--allow-empty=true` to bypass strict failure when Figma data cannot be fetched
-3. Build sections from the map:
-   ```bash
-   yarn landing:build
-   ```
-4. Validate:
-   ```bash
-   yarn lint
-   yarn build
-   yarn test:e2e
-   ```
+With the `--ds-source` flag pointing to the RDS Vue UI monorepo, it also catalogs all 81 uninstalled packages so agents know what's available to `yarn add`.
 
 ## Notes
 
-- This template assumes your RDS packages are available as `@rds-vue-ui/*` dependencies.
-- `yarn figma:map` prefers desktop MCP by default (`--source=auto`) and falls back to REST when token is available.
-- `FIGMA_ACCESS_TOKEN` is only required for REST fallback (`--source=rest`).
-- `yarn figma:map` fails fast when URL/node is provided but neither desktop MCP nor REST data could be loaded.
-- `.vscode/mcp.json` and `.mcp.json` include example MCP server configs (Figma, Playwright, Filesystem). Adjust if your environment differs.
-- `scripts/setup-codex-mcp.sh` is idempotent; it removes and re-adds the template MCP servers for Codex.
+- This template assumes `@rds-vue-ui/*` packages are available via the private Verdaccio registry at `npm.edpl.us`.
+- The DS catalog (`content/rds-catalog.json`) is excluded from Copier template output via `copier.yml` — each derived repo should regenerate it with `yarn ds:catalog`.
+- `scripts/setup-codex-mcp.sh` is idempotent; it removes and re-adds the template MCP servers.
+- See `AGENTS.md` for: component decision tree, RDS token reference, content schema, template roadmap, and definition of done.
