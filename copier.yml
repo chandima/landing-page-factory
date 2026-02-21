@@ -12,5 +12,3 @@ _exclude:
   - ".env.local"
   - ".yarn/install-state.gz"
   - "content/rds-catalog.json"
-  - "content/figma-map.json"
-  - "content/build-report.json"

@@ -44,7 +44,7 @@ tests/e2e/
 
 ## Skills
 
-Structured workflow guides in `.github/skills/`:
+Structured workflow guides in `.agents/skills/` (symlinked to `.claude/skills/`):
 - **figma-to-page** — full Figma-to-page pipeline (extract → map → implement → verify)
 - **landing-reviewer** — lint/build/e2e checks and DS compliance review
 - **rds-components** — comprehensive reference for all 90 RDS Vue UI components (browse/search ad-hoc)

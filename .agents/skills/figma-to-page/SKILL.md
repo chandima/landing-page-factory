@@ -1,3 +1,8 @@
+---
+name: figma-to-page
+description: Convert a Figma frame URL into a fully-implemented, DS-component-based Nuxt landing page using RDS Vue UI components.
+---
+
 # Skill: figma-to-page
 
 Convert a Figma frame URL into a fully-implemented, DS-component-based Nuxt landing page.

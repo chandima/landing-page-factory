@@ -1,3 +1,8 @@
+---
+name: landing-reviewer
+description: Validate a landing page implementation against DS standards, build health, and visual fidelity.
+---
+
 # Skill: landing-reviewer
 
 Validate a landing page implementation against DS standards, build health, and visual fidelity.

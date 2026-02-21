@@ -31,7 +31,7 @@ The agent should complete the full cycle autonomously: extract design → map to
 ## Sources of truth (priority order)
 
 1. `content/rds-catalog.json` — component API, visual patterns, figma signals, pitfalls
-2. `.github/skills/rds-components/SKILL.md` — full catalog of all 90 DS components (for discovery)
+2. `.agents/skills/rds-components/SKILL.md` — full catalog of all 90 DS components (for discovery)
 3. Figma frame structure (via MCP servers configured in `.vscode/mcp.json`)
 4. Existing patterns in this repo
 
@@ -39,7 +39,7 @@ The agent should complete the full cycle autonomously: extract design → map to
 
 ## Skills
 
-Structured workflow guides in `.github/skills/`:
+Structured workflow guides in `.agents/skills/` (symlinked to `.claude/skills/` and `.github/skills/`):
 
 | Skill | Purpose | When to use |
 |-------|---------|-------------|
@@ -167,6 +167,9 @@ interface LandingContent {
 
 | Path | Purpose | Edit policy |
 |------|---------|-------------|
+| `.agents/skills/` | Canonical skill location | Recognized by Copilot, Codex, OpenCode, Cursor |
+| `.claude/skills/` | Symlink → `.agents/skills/` | For Claude Code — DO NOT edit directly |
+| `.github/skills` | Symlink → `.agents/skills/` | For backward compat — DO NOT edit directly |
 | `content/rds-catalog.json` | DS component catalog | Auto-generated — DO NOT hand-edit |
 | `content/landing.json` | Page content | Agent-managed from Figma extraction |
 | `components/sections/*.vue` | Section SFCs | One per Figma section, wraps DS components |

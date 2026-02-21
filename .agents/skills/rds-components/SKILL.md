@@ -1,3 +1,8 @@
+---
+name: rds-components
+description: Browse, install, and use any of the 90 RDS Vue UI design system components by category — even without a Figma frame.
+---
+
 # Skill: rds-components
 
 Browse, install, and use any RDS Vue design system component — even without a Figma frame.
