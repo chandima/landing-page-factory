@@ -6,6 +6,12 @@ export default defineNuxtConfig({
   build: {
     transpile: [/^@rds-vue-ui\//],
   },
+  runtimeConfig: {
+    public: {
+      gaMeasurementId: "",
+      siteUrl: "",
+    },
+  },
   css: [
     // RDS theme package should register global tokens/styles
     "@rds-vue-ui/rds-theme-base/dist/css/rds-theme-base.css",

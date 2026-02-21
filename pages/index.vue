@@ -10,6 +10,9 @@ import VideoSection from "~/components/sections/VideoSection.vue";
 import FormSection from "~/components/sections/FormSection.vue";
 import BaseFooter from "~/components/BaseFooter.vue";
 import type { Component } from "vue";
+import type { LandingContent } from "~/types/landing";
+
+const content = landing as unknown as LandingContent;
 
 /**
  * Section type registry — maps `type` field in landing.json sections
@@ -25,8 +28,19 @@ const sectionRegistry: Record<string, Component> = {
   form: FormSection,
 };
 
+// Dev-mode warning for unknown section types
+if (import.meta.dev) {
+  for (const section of content.sections) {
+    if (!sectionRegistry[section.type]) {
+      console.warn(
+        `[landing] Unknown section type "${section.type}" — register it in sectionRegistry (pages/index.vue). Available types: ${Object.keys(sectionRegistry).join(", ")}`,
+      );
+    }
+  }
+}
+
 // SEO / Open Graph meta from content
-const meta = "meta" in landing ? (landing as Record<string, unknown>).meta as Record<string, string> | undefined : undefined;
+const meta = content.meta;
 if (meta) {
   useHead({
     title: meta.title || "Landing Page",
@@ -45,24 +59,31 @@ if (meta) {
     ...(meta.canonicalUrl ? { link: [{ rel: "canonical", href: meta.canonicalUrl }] } : {}),
   });
 }
+
+/**
+ * Sections that should break out of the max-width container.
+ * Driven by `fullWidth: true` in landing.json section entries.
+ */
+function isFullWidth(section: { fullWidth?: boolean }): boolean {
+  return section.fullWidth === true;
+}
 </script>
 
 <template>
   <main>
-    <HeaderSection v-if="landing.header" :model="landing.header" />
-    <HeroSection :model="landing.hero" />
+    <HeaderSection v-if="content.header" :model="content.header" />
+    <HeroSection :model="content.hero" />
 
-    <div class="container">
-      <template v-for="(section, i) in landing.sections" :key="section.id || i">
-        <component
-          :is="sectionRegistry[section.type]"
-          v-if="sectionRegistry[section.type]"
-          :model="section"
-        />
-      </template>
-    </div>
+    <template v-for="(section, i) in content.sections" :key="section.id || i">
+      <component
+        :is="sectionRegistry[section.type]"
+        v-if="sectionRegistry[section.type]"
+        :model="section"
+        :class="{ container: !isFullWidth(section) }"
+      />
+    </template>
 
-    <BaseFooter :model="landing.footer" />
+    <BaseFooter :model="content.footer" />
   </main>
 </template>
 

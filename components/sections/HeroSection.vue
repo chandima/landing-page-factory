@@ -68,12 +68,12 @@ const fallbackBg =
   opacity: 0.85;
 }
 .hero-cta--primary {
-  background-color: #ffc627;
-  color: #191919;
+  background-color: var(--rds-secondary);
+  color: var(--rds-dark-3);
 }
 .hero-cta--secondary {
   background-color: transparent;
-  color: #ffffff;
-  border: 2px solid #ffffff;
+  color: var(--rds-white);
+  border: 2px solid var(--rds-white);
 }
 </style>

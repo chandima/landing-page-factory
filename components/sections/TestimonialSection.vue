@@ -61,8 +61,8 @@ function prev() {
 }
 .testimonial-nav__btn {
   background: none;
-  border: 2px solid #8c1d40;
-  color: #8c1d40;
+  border: 2px solid var(--rds-primary);
+  color: var(--rds-primary);
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -74,11 +74,11 @@ function prev() {
   transition: background-color 0.2s, color 0.2s;
 }
 .testimonial-nav__btn:hover {
-  background-color: #8c1d40;
-  color: #ffffff;
+  background-color: var(--rds-primary);
+  color: var(--rds-white);
 }
 .testimonial-nav__indicator {
   font-size: 0.875rem;
-  color: #484848;
+  color: var(--rds-dark-1);
 }
 </style>

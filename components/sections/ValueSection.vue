@@ -44,8 +44,8 @@ const fallbackImage =
   display: inline-block;
   margin-top: 1rem;
   padding: 0.625rem 1.25rem;
-  background-color: #8c1d40;
-  color: #ffffff;
+  background-color: var(--rds-primary);
+  color: var(--rds-white);
   font-weight: 700;
   text-decoration: none;
   border-radius: 4px;

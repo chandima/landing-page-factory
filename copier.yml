@@ -12,3 +12,34 @@ _exclude:
   - ".env.local"
   - ".yarn/install-state.gz"
   - "content/rds-catalog.json"
+
+# ─── Template prompts ────────────────────────────────────────
+program_name:
+  type: str
+  help: "Program or page name (e.g., 'Online MBA')"
+  default: "Your Program"
+
+repo_name:
+  type: str
+  help: "Repository / directory name (lowercase, hyphens)"
+  default: "{{ program_name | lower | replace(' ', '-') }}-landing"
+
+site_url:
+  type: str
+  help: "Canonical site URL (e.g., https://asuonline.asu.edu/online-mba)"
+  default: ""
+
+primary_cta_url:
+  type: str
+  help: "Primary CTA destination URL (e.g., application form URL)"
+  default: "#apply"
+
+ga_measurement_id:
+  type: str
+  help: "Google Analytics measurement ID (e.g., G-XXXXXXXXXX)"
+  default: ""
+
+include_sections:
+  type: str
+  help: "Comma-separated section types to include (value,faq,testimonial,cardGrid,video,form)"
+  default: "value,faq,testimonial"

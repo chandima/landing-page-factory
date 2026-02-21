@@ -140,18 +140,18 @@ const isDark = (v?: string) =>
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #191919;
+  color: var(--rds-dark-3);
 }
 .form-section__title--light {
-  color: #ffffff;
+  color: var(--rds-white);
 }
 .form-section__subtitle {
   font-size: 1rem;
-  color: #484848;
+  color: var(--rds-dark-1);
   margin-bottom: 1.5rem;
 }
 .form-section__subtitle--light {
-  color: #e8e8e8;
+  color: var(--rds-light-2);
 }
 .form-section__form {
   display: flex;
@@ -166,14 +166,14 @@ const isDark = (v?: string) =>
 .form-section__label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #191919;
+  color: var(--rds-dark-3);
 }
 .form-section__required {
-  color: #8c1d40;
+  color: var(--rds-primary);
 }
 .form-section__input {
   padding: 0.625rem 0.75rem;
-  border: 1px solid #bfbfbf;
+  border: 1px solid var(--rds-light-4);
   border-radius: 4px;
   font-size: 1rem;
   font-family: inherit;
@@ -181,7 +181,7 @@ const isDark = (v?: string) =>
 }
 .form-section__input:focus {
   outline: none;
-  border-color: #8c1d40;
+  border-color: var(--rds-primary);
   box-shadow: 0 0 0 2px rgba(140, 29, 64, 0.15);
 }
 .form-section__textarea {
@@ -189,8 +189,8 @@ const isDark = (v?: string) =>
 }
 .form-section__submit {
   padding: 0.75rem 2rem;
-  background-color: #8c1d40;
-  color: #ffffff;
+  background-color: var(--rds-primary);
+  color: var(--rds-white);
   font-weight: 700;
   font-size: 1rem;
   border: none;
@@ -204,14 +204,14 @@ const isDark = (v?: string) =>
 }
 
 /* Variant backgrounds using RDS tokens */
-.bg-primary { background-color: #8c1d40; }
-.bg-secondary { background-color: #ffc627; }
-.bg-dark-1 { background-color: #484848; }
-.bg-dark-2 { background-color: #2a2a2a; }
-.bg-dark-3 { background-color: #191919; }
-.bg-white { background-color: #ffffff; }
-.bg-light-1 { background-color: #fafafa; }
-.bg-light-2 { background-color: #e8e8e8; }
-.bg-light-3 { background-color: #d0d0d0; }
-.bg-light-4 { background-color: #bfbfbf; }
+.bg-primary { background-color: var(--rds-primary); }
+.bg-secondary { background-color: var(--rds-secondary); }
+.bg-dark-1 { background-color: var(--rds-dark-1); }
+.bg-dark-2 { background-color: var(--rds-dark-2); }
+.bg-dark-3 { background-color: var(--rds-dark-3); }
+.bg-white { background-color: var(--rds-white); }
+.bg-light-1 { background-color: var(--rds-light-1); }
+.bg-light-2 { background-color: var(--rds-light-2); }
+.bg-light-3 { background-color: var(--rds-light-3); }
+.bg-light-4 { background-color: var(--rds-light-4); }
 </style>
